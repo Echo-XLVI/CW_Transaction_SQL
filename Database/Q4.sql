@@ -16,7 +16,8 @@
 
 ---------------------------------- Transaction
 Begin;
-Savepoint bi_created;
+
+Savepoint s0;
 
 	update inventory 
 	set body=body-1,wheel=wheel-1;
@@ -25,15 +26,16 @@ Savepoint s1;
 
 	update production
 	set bicycle_count=bicycle_count+1;
-	
 
+Savepoint s2;
 
 -- select * from inventory;
 select * from production;
+
+Rollback To s0;
 Rollback To s1;
-Rollback To bi_created ;
-
-
+Rollback To s2;
+Commit;
 ---------------------------------- Test
 -- drop table inventory;
 -- drop table production;
